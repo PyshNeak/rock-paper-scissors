@@ -13,7 +13,9 @@ function getHumanChoice() {
 let humanScore = 0;
 let computerScore = 0;
 
-function playRound(humanChoice, computerChoice) {
+function playRound() {
+    let humanChoice = getHumanChoice();
+    let computerChoice = getComputerChoice();
     if (humanChoice == 'Rock' && computerChoice == 'Scissors'
         || humanChoice == 'Paper' && computerChoice == 'Rock'
         || humanChoice == 'Scissors' && computerChoice == 'Paper') {
@@ -27,8 +29,16 @@ function playRound(humanChoice, computerChoice) {
     }
 }
 
-let humanChoice = getHumanChoice();
-let computerChoice = getComputerChoice();
+function playGame() {
+    while (humanScore < 5 && computerScore < 5) {
+        playRound();
+    }
+    console.log('Your Score: ' + humanScore + '\nComputer Score: ' + computerScore);
+    if (humanScore === 5) {
+        console.log('Congratulations! You win!');
+    } else {
+        console.log('Congratulations to the robots! Let them RISE.');
+    }
+}
 
-playRound(humanChoice, computerChoice);
-console.log(humanScore, computerScore);
+playGame()
