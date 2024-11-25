@@ -1,3 +1,5 @@
+selectionBtns = document.querySelectorAll('.selection-btn');
+
 function getComputerChoice() {
     let rand = Math.floor(Math.random() * 3);
     let options = ["Rock", "Paper", "Scissors"];
@@ -13,32 +15,43 @@ function getHumanChoice() {
 let humanScore = 0;
 let computerScore = 0;
 
-function playRound() {
-    let humanChoice = getHumanChoice();
+function playRound(humanChoice) {
     let computerChoice = getComputerChoice();
+    const announcement = document.querySelector('.announcement');
+    const score = document.querySelector('.score');
     if (humanChoice == 'Rock' && computerChoice == 'Scissors'
         || humanChoice == 'Paper' && computerChoice == 'Rock'
         || humanChoice == 'Scissors' && computerChoice == 'Paper') {
         humanScore++;
-        console.log('You win! ' + humanChoice + " beats " + computerChoice + "!");
+        announcement.textContent = 'You win! ' + humanChoice + " beats " + computerChoice + "!"
     } else if (humanChoice === computerChoice) {
-        console.log('You tie! ' + humanChoice + " matches " + computerChoice + "!");
+        announcement.textContent = 'You tie! ' + humanChoice + " matches " + computerChoice + "!";
     } else {
+        announcement.textContent = 'You lose!! ' + humanChoice + " loses too " + computerChoice + "!"
         computerScore++;
-        console.log('You lose!! ' + humanChoice + " loses too " + computerChoice + "!");
     }
-}
+    score.textContent = 'User: ' + humanScore + ' Computer: ' + computerScore;
 
-function playGame() {
-    while (humanScore < 5 && computerScore < 5) {
-        playRound();
-    }
-    console.log('Your Score: ' + humanScore + '\nComputer Score: ' + computerScore);
     if (humanScore === 5) {
-        console.log('Congratulations! You win!');
-    } else {
-        console.log('Congratulations to the robots! Let them RISE.');
+        announcement.textContent = "YOU WIN!!!!";
+        selectionBtns.forEach((button) => {
+            button.removeEventListener('click', startRound);
+        });
+    } else if (computerScore === 5) {
+        announcement.textContent = "YOU SUCK.";
+        selectionBtns.forEach((button) => {
+            button.removeEventListener('click', startRound);
+        });
     }
 }
 
-playGame()
+function startRound(e) {
+    selection = e.target.textContent;
+    playRound(selection);
+}
+
+
+selectionBtns.forEach((button) => {
+    button.addEventListener('click', startRound);
+});
+
